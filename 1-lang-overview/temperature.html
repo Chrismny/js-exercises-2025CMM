@@ -51,12 +51,12 @@
     </p>
 
     <label>Celsius Temperature:</label>
-    <input id="input-temp-c" type="number" placeholder="-270" value="-270"></input>
+    <input id="inputtempc" type="number" placeholder="-270" value="-270"></input>
     <button id="calculate">Calculate</button>
 
     <br>
     <label>Fahrenheit Temperature:</label>
-    <span id="display-temp-f">TODO</span>
+    <span id="displaytempf">SOON</span>
 
 
     <script type="text/javascript">
@@ -64,22 +64,43 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        function convertTempCF(cel) {
+            return 9 / 5 * cel + 32
+        }
 
+        var c = -270
 
+        var f = convertTempCF(c)
+        console.log( c , " degrees celsius is equal to" , f , "degrees fahrenheit")
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        function calculateTemp(tempC) {
+            return 9 / 5 * tempC + 32
+        }
 
+        var c1 = -270
 
-
+        var f1 = convertTempCF(c1)
+        console.log( c , " degrees celsius is equal to" , f , "degrees fahrenheit")
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var btn = document.getElementById("calculate")
+        var displaytempf = document.getElementById("displaytempf")
 
+        function submit() {
+            var c2 = inputtempc.value
+            var f2 = calculateTemp(c2)
+            displaytempf.innerText = f2
+            
+        }
+
+        btn.addEventListener("click", submit, false)
 
 
 
