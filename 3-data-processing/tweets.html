@@ -61,7 +61,7 @@
             },
             {
                 "id": 100200300,
-                "full_text": "@sandwhoa that sandwich looks amazing!!",
+                "full_text": "@sandwoah that sandwich looks amazing!!", // based on answer key in html, there was a typo in this screenname
                 "img_url": null,
                 "user": {"screen_name": "person3", "followers": 300},
                 "likes_count": 35
@@ -78,8 +78,29 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A)", tweets[0].user.screen_name)
 
+        console.log("B)")
+        tweets.forEach(function(tweet){
+        if (tweet.full_text.includes("@sandwoah")){
+            console.log(tweet.user.screen_name)
+            }
+        })
 
+        console.log("C)")
+        var matchingTweets = tweets.filter(function(tweet){
+        return tweet.full_text.includes("@sandwoah")
+            })
+
+        var maxTweet = matchingTweets[0]
+
+        matchingTweets.forEach(function(tweet){
+            if (tweet.likes_count > maxTweet.likes_count){
+                maxTweet = tweet
+            }
+        })
+
+        console.log(maxTweet.user.screen_name)
 
         console.log("---------------------")
         console.log("PART 2...")
