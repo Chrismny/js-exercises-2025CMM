@@ -86,11 +86,24 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                    console.log("B)", data.length)
 
+                    console.log("C")
+                    data.forEach(function(movie)  {
+                        console.log("--")
+                        console.log(movie.Year, movie.Title)
+                        
+                    })
 
+                    console.log("D")
+                    var sortedMovies = data.sort(function(a, b) {
+                        return d3.descending(a.Rating, b.Rating)
+                         }
+                     )
 
-
-
+                    //console.log(data[0])
+                    var highestRated = sortedMovies [0]
+                    console.log("Highest Rated:", highestRated.Title, highestRated.Rating)
                 console.log("---------------------")
                 console.log("PART 2...")
 
