@@ -89,13 +89,75 @@
 
                 console.log("---------------------")
                 console.log("PART 1...")
+                  
+                    // B) Display generated date
+                    var generatedDate = data.properties.updated;
+                    console.log("B) Generated Date:", generatedDate);
 
+                    // C) Display number of periods
+                    var periods = data.properties.periods;
+                    console.log("C) Number of Periods:", periods.length);
+
+                    // D) Filter for daytime only
+                    var daytimePeriods = periods.filter(function(period) {
+                        return period.isDaytime === true;
+                    });
+
+                    // E) Display number of daytime periods
+                    console.log("E) Number of Daytime Periods:", daytimePeriods.length);
+
+                    // F) Log readable forecasts
+                    daytimePeriods.forEach(function(period) {
+                        var output = `${period.name}: ${period.temperature}${degreeSymbol}${period.temperatureUnit} - ${period.shortForecast}`;
+                        console.log(output);
+                    });
 
 
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                     // A) 
+                    document.getElementById("display-date").textContent = generatedDate;
+
+                    // B) 
+                    var tableEl = document.getElementById("display-forecast");
+
+                    //  table 
+                    var headerRow = document.createElement("tr");
+                    ["Period", "Temperature", "Forecast", "Icon"].forEach(function(headerText) {
+                        var th = document.createElement("th");
+                        th.textContent = headerText;
+                        headerRow.appendChild(th);
+                    });
+                    tableEl.appendChild(headerRow);
+
+                    // Loop through daytime periods and populate rows
+                    daytimePeriods.forEach(function(period) {
+                        var row = document.createElement("tr");
+
+                        var periodCell = document.createElement("td");
+                        periodCell.textContent = period.name;
+                        row.appendChild(periodCell);
+
+                        var tempCell = document.createElement("td");
+                        tempCell.textContent = `${period.temperature}${degreeSymbol}${period.temperatureUnit}`;
+                        row.appendChild(tempCell);
+
+                        var forecastCell = document.createElement("td");
+                        forecastCell.textContent = period.shortForecast || period.detailedForecast;
+                        row.appendChild(forecastCell);
+
+                        var iconCell = document.createElement("td");
+                        var img = document.createElement("img");
+                        img.src = period.icon;
+                        img.alt = period.shortForecast;
+                        img.style.maxWidth = "50px";
+                        iconCell.appendChild(img);
+                        row.appendChild(iconCell);
+
+                        tableEl.appendChild(row);
+                    });
 
 
 
