@@ -107,13 +107,45 @@
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                    var selectEl = document.getElementById("select-movie");
 
+                    // A) Populate  dropdown
+                    data.forEach(function(movie) {
+                        var optionEl = document.createElement("option");
+                        optionEl.value = movie.Id 
+                        optionEl.textContent = movie.Title;
+                        selectEl.appendChild(optionEl);
+                    });
 
+                    // B) update function
+                    function updateMovieInfo() {
+                        var selectedId = selectEl.value;
 
+                        var selectedMovie = data.find(function(movie) {
+                            return movie.Id == selectedId; 
+                        });
 
+                        if (selectedMovie) {
+                            document.getElementById("display-title").textContent = selectedMovie.Title;
+                            document.getElementById("display-year").textContent = selectedMovie.Year;
+                            document.getElementById("display-rating").textContent = selectedMovie.Rating;
+
+                            var imageContainer = document.getElementById("image-container");
+                            imageContainer.innerHTML = ""; 
+
+                            if (selectedMovie.PosterURL) {
+                                var img = document.createElement("img");
+                                img.src = selectedMovie.PosterURL;
+                                img.alt = selectedMovie.Title + " Poster";
+                                img.style.maxWidth = "200px";
+                                imageContainer.appendChild(img);
+                            }
+                        }
+                    }
+
+                    // C) Add event listener
+                    selectEl.addEventListener("change", updateMovieInfo);
             })
-            .catch(err => console.log(err))
-
     </script>
 </body>
 </html>
