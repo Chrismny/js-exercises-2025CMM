@@ -76,7 +76,11 @@
     <script type="text/javascript">
 
         function formatUSD(price) {
-            return `$${price.toFixed(2)}`
+            const parsedPrice = parseFloat(price);
+            if (isNaN(parsedPrice)) {
+                return "$0.00";  // Handle cases where price is NaN
+            }
+            return `$${parsedPrice.toFixed(2)}`;
         }
 
         function formatPct(percentage) {
@@ -88,27 +92,46 @@
         var filename = `daily_adjusted_${symbol}.csv`
         var requestUrl = `https://raw.githubusercontent.com/prof-rossetti/intro-software-dev-python-book/refs/heads/main/docs/data/${filename}`
 
-        d3.csv(requestUrl).then(function(data) {
-            console.log("DATA:", data)
+        d3.csv(requestUrl).then(function(data) {          
+            
+            //console.log("DATA:", data)
+
+             data.sort((a,b) => Date(a.date) - new Date(b.date))
 
             console.log("---------------------")
             console.log("PART 1...")
 
+                // 1. Display the number of days in the data (number of rows)
+                console.log("Number of days in the data:", data.length)
 
+                // 2. Display the date and adjusted closing price on the earliest day
+                const earliestDay = data[0]
+                console.log("Earliest day:", earliestDay["date"], formatUSD(earliestDay["adjusted_close"]))
+
+                // 3. Display the date and adjusted closing price on the latest day
+                const latestDay = data[data.length - 1]
+                console.log("Latest day:", latestDay["date"], formatUSD(latestDay["adjusted_close"]))
+
+                // 4. Calculate the percent change in adjusted closing price
+                const earliestPrice = parseFloat(earliestDay["adjusted_close"])
+                const latestPrice = parseFloat(latestDay["adjusted_close"])
+                const percentChange = (latestPrice - earliestPrice) / earliestPrice
+                console.log("Percent change:", formatPct(percentChange))
 
 
 
             console.log("---------------------")
             console.log("PART 2...")
 
+                document.getElementById("display-symbol").innerText = symbol
+                            document.getElementById("display-earliest").innerText = `${earliestDay["date"]}: ${formatUSD(earliestPrice)}`
+                            document.getElementById("display-latest").innerText = `${latestDay["date"]}: ${formatUSD(latestPrice)}`
+                            document.getElementById("display-pct-change").innerText = formatPct(percentChange)
 
+                        }).catch(function(error) {
+                            console.error("ERROR:", error)
+                        })
 
-
-
-
-            }).catch(function(error) {
-                console.error("ERROR:", error)
-        })
 
     </script>
 </body>
