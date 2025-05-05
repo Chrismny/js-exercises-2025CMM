@@ -86,21 +86,30 @@
             sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey)
         }
 
+         // Define references to DOM elements
+            const inputSymbol = document.getElementById("input-symbol")
+            const lookupButton = document.getElementById("lookup")
+            const displayName = document.getElementById("display-name")
+            const displayDescription = document.getElementById("display-description")
+            const displayLink = document.getElementById("display-link")
 
 
         // FUNCTION DEFINITION
         function lookupCompany() {
-            var symbol = inputSymbol.value
+            var symbol = inputSymbol.value.trim().toUpperCase()
             console.log("SYMBOL:", symbol)
 
             var requestUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`
+            
             d3.json(requestUrl).then(function(data) {
                 console.log("RESPONSE:", data)
 
                 console.log("---------------------")
                 console.log("PART 1...")
 
-
+                console.log("Company Name:", data.Name)
+                console.log("Description:", data.Description)
+                console.log("Website:", data.OfficialSite)
 
 
 
@@ -108,7 +117,17 @@
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                    // Display values on the page
+                    displayName.textContent = data.Name || "N/A"
+                    displayDescription.textContent = data.Description || "N/A"
 
+                    if (data.OfficialSite) {
+                        displayLink.textContent = data.OfficialSite
+                        displayLink.href = data.OfficialSite
+                    } else {
+                        displayLink.textContent = "N/A"
+                        displayLink.href = "#"
+                    }
 
 
 
@@ -117,11 +136,11 @@
             })
         }
 
-        // FUNCTION INVOCATIONS
-        // invoke function when the page loads:
-        //lookupCompany()
-        // invoke function when button is clicked:
-        //lookupButton.addEventListener("click", lookupCompany, false)
+    // Initial load
+    lookupCompany()
+
+    // Event listener for the "Lookup" button
+    lookupButton.addEventListener("click", lookupCompany, false)
 
     </script>
 </body>
